@@ -4,6 +4,7 @@ import numpy as np
 from datasets import hw_dataset
 from datasets import author_hw_dataset
 from datasets import author_rimeslines_dataset
+from datasets import manifest_hw_dataset
 from base import BaseDataLoader
 
 
@@ -37,6 +38,8 @@ def getDataLoader(config,split):
             return withCollate(author_hw_dataset.AuthorHWDataset,author_hw_dataset.collate,batch_size,valid_batch_size,shuffle,shuffleValid,numDataWorkers,split,data_dir,config)
         elif data_set_name=='AuthorRIMESLinesDataset':
             return withCollate(author_rimeslines_dataset.AuthorRIMESLinesDataset,author_rimeslines_dataset.collate,batch_size,valid_batch_size,shuffle,shuffleValid,numDataWorkers,split,data_dir,config)
+        elif data_set_name=='ManifestHWDataset':
+            return withCollate(manifest_hw_dataset.ManifestHWDataset,manifest_hw_dataset.collate,batch_size,valid_batch_size,shuffle,shuffleValid,numDataWorkers,split,data_dir,config)
         else:
             print('Error, no dataloader has no set for {}'.format(data_set_name))
             exit()
@@ -80,4 +83,3 @@ def withCollate(setObj,collateFunc,batch_size,valid_batch_size,shuffle,shuffleVa
         validLoader = torch.utils.data.DataLoader(validData, batch_size=valid_batch_size, shuffle=shuffleValid, num_workers=numDataWorkers, collate_fn=collateFunc)
         return trainLoader, validLoader
     
-
